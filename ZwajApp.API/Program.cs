@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using ZwajApp.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +19,21 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 });
 builder.Services.AddCors();
+builder.Services.AddScoped<IAuthRepository,AuthRepository>();
+
+//Authentication MiddleWare
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options=>{
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes
+            (builder.Configuration.GetSection("AppSettings:Token").Value)),
+            ValidateIssuer= false,
+            ValidateAudience=false,
+        };
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
