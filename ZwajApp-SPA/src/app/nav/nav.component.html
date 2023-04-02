@@ -1,38 +1,36 @@
-﻿<nav class="rtl navbar navbar-expand-md navbar-dark bg-dark">
+﻿<nav class="rtl navbar navbar-expand-md navbar-dark bg-primary">
   <a style="margin-top:-10px;color:pink;
-font-family:ToyorAljanah;font-size:2.25rem;font-weight:bolder" class="navbar-brand" href="#"><i class="fa fa-heart"
+font-family:ToyorAljanah;font-size:2.25rem;font-weight:bolder" class="navbar-brand" [routerLink]="['']"><i class="fa fa-heart"
       aria-hidden="true"></i>زواج<i class="fa fa-heart" aria-hidden="true"></i></a>
 
-  <ul style="letter-spacing:1px;font-weight:bold;font-family:'JF Flat';font-size:1.2rem" class="navbar-nav mr-auto">
-    <li class="nav-item">
-      <a class="nav-link" href="#">الرئيسية </a>
+  <ul  *ngIf="LogedIn()" style="letter-spacing:1px;font-weight:bold;font-family:'JF Flat';font-size:1.2rem" class="navbar-nav mr-auto">
+    <li class="nav-item" routerLinkActive="active">
+      <a class="nav-link" [routerLink]="['']">الرئيسية </a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">بحث</a>
+    <li class="nav-item" routerLinkActive="active">
+      <a class="nav-link" [routerLink]="['/members']">بحث</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">تواصل</a>
+    <li class="nav-item"  routerLinkActive="active">
+      <a class="nav-link" [routerLink]="['/lists']">تواصل</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">دردشة</a>
-    </li>
-    <li class="nav-item">
-      <a *ngIf="LogedIn()" class="nav-link" (click)="LogedOut()">خروج</a>
+    <li class="nav-item"  routerLinkActive="active">
+      <a class="nav-link" [routerLink]="['/mssages']">دردشة</a>
     </li>
   </ul>
-  <div class="dropdown">
-    <a *ngIf="LogedIn()" style="letter-spacing:1px;font-weight:bold;font-family:'JF Flat';font-size:1.2rem" class="dropdown-toggle text-light nav-link">
+  <div dropdown *ngIf="LogedIn()" class="dropdown">
+    <a dropdownToggle  style="letter-spacing:1px;font-weight:bold;font-family:'JF Flat';font-size:1.2rem" class="dropdown-toggle text-light nav-link">
       مرحبا بك
+     {{authService.decodedToken?.unique_name | titlecase}}
     </a>
-    <div class="dropdown-menu">
+    <div *dropdownMenu class="dropdown-menu mt-3">
       <a class="dropdown-item"><i class="fa fa-user-o" aria-hidden="true"></i>
         ملفي الشحصي</a>
       <div class="dropdown-divider"></div>
-      <a class="dropdown-item"><i class="fa fa-user-out"></i>
+      <a class="dropdown-item" (click)="LogedOut()"><i class="fa fa-user-out"></i>
         نسجيل الخروح</a>
     </div>
   </div>
-  <form *ngIf="!LogedIn()" (ngSubmit)="Login()" #LoginForm="ngForm" class="form-inline my-2 my-lg-0">
+  <form *ngIf="!LogedIn()" (ngSubmit)="Login()" #LoginForm="ngForm" class="ml-5 form-inline my-2 my-lg-0">
     <input #username="ngModel" name="username" required class="form-control mr-sm-2" type="text"
       [(ngModel)]="model.username" placeholder="إسم المشترك">
     <input name="password" required class="form-control mr-sm-2" type="password" [(ngModel)]="model.password"

@@ -15,7 +15,7 @@ namespace ZwajApp.API.Data
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
             if (user == null) return null;
-            if (!VerifyPasswordHash(password, user.PasswordSalt, user.PasswordHash)) ;
+            if (!VerifyPasswordHash(password, user.PasswordSalt, user.PasswordHash)) return null;
             return user;
         }
 
@@ -25,11 +25,18 @@ namespace ZwajApp.API.Data
             {
                 var ComutedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 // for loop
-                foreach (var hash in ComutedHash)
+                //foreach (var hash in ComutedHash)
+                //{
+                //    foreach (var passhash in passwordHash)
+                //    {
+                //        if (hash != passhash) return false;
+                //    }
+                //}
+                for (int i = 0; i < ComutedHash.Length; i++)
                 {
-                    foreach (var passhash in passwordHash)
+                    if (ComutedHash[i] != passwordHash[i])
                     {
-                        if (hash != passhash) return false;
+                        return false;
                     }
                 }
                 return true;
