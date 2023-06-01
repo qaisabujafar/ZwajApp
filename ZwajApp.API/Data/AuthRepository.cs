@@ -24,14 +24,6 @@ namespace ZwajApp.API.Data
             using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
             {
                 var ComutedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                // for loop
-                //foreach (var hash in ComutedHash)
-                //{
-                //    foreach (var passhash in passwordHash)
-                //    {
-                //        if (hash != passhash) return false;
-                //    }
-                //}
                 for (int i = 0; i < ComutedHash.Length; i++)
                 {
                     if (ComutedHash[i] != passwordHash[i])

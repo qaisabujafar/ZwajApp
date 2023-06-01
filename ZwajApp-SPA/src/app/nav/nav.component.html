@@ -23,7 +23,7 @@ font-family:ToyorAljanah;font-size:2.25rem;font-weight:bolder" class="navbar-bra
      {{authService.decodedToken?.unique_name | titlecase}}
     </a>
     <div *dropdownMenu class="dropdown-menu mt-3">
-      <a class="dropdown-item"><i class="fa fa-user-o" aria-hidden="true"></i>
+      <a class="dropdown-item mnavlink" [routerLink]="['/member/edit']"><i class="fa fa-user-o" aria-hidden="true"></i>
         ملفي الشحصي</a>
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" (click)="LogedOut()"><i class="fa fa-user-out"></i>
